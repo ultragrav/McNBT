@@ -11,3 +11,7 @@ and
 
 NBTConversion#unwrapTag to convert a wrapped tag back to an NMS NBT tag
 Note: The version in unwrapTag must be set correctly
+
+
+Todo:
+ - Add some kind of reflection caching to speed up conversion
