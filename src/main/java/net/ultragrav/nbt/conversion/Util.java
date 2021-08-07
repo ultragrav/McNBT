@@ -1,14 +1,10 @@
 package net.ultragrav.nbt.conversion;
 
-import com.sun.istack.internal.NotNull;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class Util {
-    @NotNull
     static <T> T getFirstField(Object obj, Class<T> type) {
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
