@@ -16,7 +16,7 @@ public class NBTConversion {
      * @param mcTag Minecraft tag
      * @return Wrapped tag
      */
-    public static <T extends Tag> T wrapTag(Object mcTag) throws IllegalAccessException {
+    public static <T extends Tag> T wrapTag(Object mcTag) {
         if (mcTag == null) throw new IllegalArgumentException("mcTag cannot be null");
 
         String clName = mcTag.getClass().getName();
