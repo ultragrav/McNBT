@@ -23,7 +23,7 @@ public class Util {
     static void setFirstField(Object obj, Object other) {
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if (field.getType().isInstance(other)) {
+            if (field.getType().isInstance(other) || field.getType().isAssignableFrom(unwrapPrimitive(other.getClass()))) {
                 field.setAccessible(true);
                 try {
                     field.set(obj, other);
@@ -64,5 +64,11 @@ public class Util {
         if (clazz == Double.class) return Double.TYPE;
         if (clazz == Void.class) return Void.TYPE;
         return clazz;
+    }
+
+    public static void main(String[] args) {
+        int i = 0;
+        Object o = i;
+        System.out.println(int.class.isAssignableFrom(o.getClass()));
     }
 }

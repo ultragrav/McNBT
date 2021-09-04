@@ -91,11 +91,21 @@ public class NBTConversion {
             } else if (tag instanceof TagList) {
                 List<Tag> list = ((TagList) tag).getData();
                 List ret = new ArrayList();
+                byte typeId = 0;
                 for (Tag t : list) {
-                    ret.add(unwrapTag(t, version));
+                    Object nmsTag = unwrapTag(t, version);
+                    ret.add(nmsTag);
+                    //Set type id to the result of getTypeId() use reflection.
+                    if (typeId == 0 && nmsTag != null) {
+                        Method m = nmsTag.getClass().getMethod("getTypeId");
+                        typeId = (byte) m.invoke(nmsTag);
+                    }
                 }
                 T t = Util.construct(clazz);
+
                 Util.setFirstField(t, ret);
+                Util.setFirstField(t, typeId);
+
                 return t;
             } else {
                 try {
