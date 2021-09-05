@@ -43,10 +43,8 @@ public class Util {
         }
         try {
             Constructor<T> constructor = clazz.getDeclaredConstructor(cls);
-            if (constructor != null) {
-                constructor.setAccessible(true);
-                return constructor.newInstance(objs);
-            }
+            constructor.setAccessible(true);
+            return constructor.newInstance(objs);
         } catch (Exception e) {
             e.printStackTrace();
         }

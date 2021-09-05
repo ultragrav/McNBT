@@ -10,8 +10,13 @@ public class TagInt extends Tag {
     private int data;
 
     @Override
-    public void serialize(GravSerializer gravSerializer) {
-        gravSerializer.writeInt(data);
+    public byte getTypeId() {
+        return 3;
+    }
+
+    @Override
+    public void serialize(GravSerializer serializer) {
+        serializer.writeInt(data);
     }
 
     public static TagInt deserialize(GravSerializer serializer) {

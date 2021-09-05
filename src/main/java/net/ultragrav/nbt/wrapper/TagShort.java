@@ -10,6 +10,11 @@ public class TagShort extends Tag {
     private short data;
 
     @Override
+    public byte getTypeId() {
+        return 2;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeShort(data);
     }

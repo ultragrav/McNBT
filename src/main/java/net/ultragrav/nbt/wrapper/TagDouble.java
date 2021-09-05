@@ -10,6 +10,11 @@ public class TagDouble extends Tag {
     private double data;
 
     @Override
+    public byte getTypeId() {
+        return 6;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeDouble(data);
     }

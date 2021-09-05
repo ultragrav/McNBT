@@ -10,6 +10,11 @@ public class TagFloat extends Tag {
     private float data;
 
     @Override
+    public byte getTypeId() {
+        return 5;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeFloat(data);
     }

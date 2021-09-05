@@ -10,6 +10,11 @@ public class TagByteArray extends Tag {
     private byte[] data;
 
     @Override
+    public byte getTypeId() {
+        return 7;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeByteArray(data);
     }

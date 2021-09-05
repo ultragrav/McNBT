@@ -10,6 +10,11 @@ public class TagLong extends Tag {
     private long data;
 
     @Override
+    public byte getTypeId() {
+        return 4;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeObject(data);
     }
