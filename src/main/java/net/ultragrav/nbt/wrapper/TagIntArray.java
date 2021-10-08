@@ -6,7 +6,7 @@ import net.ultragrav.serializer.GravSerializer;
 
 @Getter
 @AllArgsConstructor
-public class TagIntArray extends Tag {
+public class TagIntArray extends Tag<int[]> {
     private int[] data;
 
     @Override

@@ -5,7 +5,7 @@ import lombok.Getter;
 import net.ultragrav.serializer.GravSerializer;
 
 @AllArgsConstructor
-public class TagByteArray extends Tag {
+public class TagByteArray extends Tag<byte[]> {
     @Getter
     private byte[] data;
 

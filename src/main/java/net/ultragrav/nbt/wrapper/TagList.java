@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class TagList extends Tag {
+public class TagList extends Tag<List<Tag>> {
     private List<Tag> data;
 
     public TagList() {

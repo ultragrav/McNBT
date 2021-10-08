@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TagCompound extends Tag {
+public class TagCompound extends Tag<Map<String, Tag>> {
     private Map<String, Tag> data = new HashMap<>();
 
     @Override

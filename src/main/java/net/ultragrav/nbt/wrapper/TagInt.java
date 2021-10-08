@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.ultragrav.serializer.GravSerializer;
 
-@Getter
 @AllArgsConstructor
-public class TagInt extends Tag {
+public class TagInt extends Tag<Integer> {
     private int data;
 
     @Override
@@ -16,5 +15,10 @@ public class TagInt extends Tag {
 
     public static TagInt deserialize(GravSerializer serializer) {
         return new TagInt(serializer.readInt());
+    }
+
+    @Override
+    public Integer getData() {
+        return data;
     }
 }
