@@ -10,11 +10,22 @@ public class TagIntArray extends Tag<int[]> {
     private int[] data;
 
     @Override
-    public void serialize(GravSerializer gravSerializer) {
-        gravSerializer.writeObject(data);
+    public byte getTypeId() {
+        return 11;
+    }
+
+    @Override
+    public void serialize(GravSerializer serializer) {
+        serializer.writeInt(data.length);
+        for (int i : data) serializer.writeInt(i);
     }
 
     public static TagIntArray deserialize(GravSerializer serializer) {
-        return new TagIntArray(serializer.readObject());
+        int length = serializer.readInt();
+        int[] data = new int[length];
+        for (int i = 0; i < length; i++) {
+            data[i] = serializer.readInt();
+        }
+        return new TagIntArray(data);
     }
 }

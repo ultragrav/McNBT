@@ -6,11 +6,16 @@ public class TagEnd extends Tag<Void> {
     public static final TagEnd instance = new TagEnd();
 
     @Override
+    public byte getTypeId() {
+        return 0;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
     }
 
     public static TagEnd deserialize(GravSerializer serializer) {
-        return new TagEnd();
+        return instance;
     }
 
     @Override

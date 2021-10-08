@@ -15,23 +15,28 @@ public class TagCompound extends Tag<Map<String, Tag>> {
     private Map<String, Tag> data = new HashMap<>();
 
     @Override
+    public byte getTypeId() {
+        return 10;
+    }
+
+    @Override
     public void serialize(GravSerializer serializer) {
-        serializer.writeInt(data.size());
         data.forEach((k, t) -> {
+            serializer.writeByte(t.getTypeId());
             serializer.writeString(k);
-            serializeTag(serializer, t);
+            t.serialize(serializer);
         });
+        serializer.writeByte((byte) 0);
     }
 
     public static TagCompound deserialize(GravSerializer serializer) {
-        int amount = serializer.readInt();
         Map<String, Tag> tags = new HashMap<>();
-        for(int i = 0; i < amount; i++) {
-            String name = serializer.readString();
-            tags.put(name, deserializeTag(serializer));
+        byte id;
+        while ((id = serializer.readByte()) != 0) {
+            String key = serializer.readString();
+            Tag value = deserializeTag(id, serializer);
+            tags.put(key, value);
         }
-        TagCompound tag = new TagCompound();
-        tag.data = tags;
-        return tag;
+        return new TagCompound(tags);
     }
 }

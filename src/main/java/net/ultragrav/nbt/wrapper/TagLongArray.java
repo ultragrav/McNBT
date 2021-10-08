@@ -10,7 +10,12 @@ public class TagLongArray extends Tag<long[]> {
     private long[] data;
 
     @Override
-    public void serialize(GravSerializer gravSerializer) { //writeObject does not support long[]
+    public byte getTypeId() {
+        return 12;
+    }
+
+    @Override
+    public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeInt(data.length);
         for(long l : data) {
             gravSerializer.writeLong(l);

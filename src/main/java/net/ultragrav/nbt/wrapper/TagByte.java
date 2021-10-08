@@ -9,6 +9,11 @@ public class TagByte extends Tag<Byte> {
     private byte data;
 
     @Override
+    public byte getTypeId() {
+        return 1;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeByte(data);
     }

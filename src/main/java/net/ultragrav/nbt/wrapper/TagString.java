@@ -11,6 +11,11 @@ public class TagString extends Tag<String> {
     private String data;
 
     @Override
+    public byte getTypeId() {
+        return 8;
+    }
+
+    @Override
     public void serialize(GravSerializer gravSerializer) {
         gravSerializer.writeObject(data);
     }
