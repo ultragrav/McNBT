@@ -6,16 +6,16 @@ import net.ultragrav.serializer.GravSerializer;
 public abstract class Tag<T> implements GravSerializable {
     public abstract byte getTypeId();
 
-    public static void serializeTag(GravSerializer serializer, Tag tag) {
+    public static void serializeTag(GravSerializer serializer, Tag<?> tag) {
         serializer.writeByte(tag.getTypeId());
         tag.serialize(serializer);
     }
 
-    public static Tag deserializeTag(GravSerializer serializer) {
+    public static Tag<?> deserializeTag(GravSerializer serializer) {
         byte id = serializer.readByte();
         return deserializeTag(id, serializer);
     }
-    public static Tag deserializeTag(byte id, GravSerializer serializer) {
+    public static Tag<?> deserializeTag(byte id, GravSerializer serializer) {
         switch (id) {
             case 0:
                 return TagEnd.deserialize(serializer);

@@ -11,8 +11,8 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TagCompound extends Tag<Map<String, Tag>> {
-    private Map<String, Tag> data = new HashMap<>();
+public class TagCompound extends Tag<Map<String, Tag<?>>> {
+    private Map<String, Tag<?>> data = new HashMap<>();
 
     @Override
     public byte getTypeId() {
@@ -30,11 +30,11 @@ public class TagCompound extends Tag<Map<String, Tag>> {
     }
 
     public static TagCompound deserialize(GravSerializer serializer) {
-        Map<String, Tag> tags = new HashMap<>();
+        Map<String, Tag<?>> tags = new HashMap<>();
         byte id;
         while ((id = serializer.readByte()) != 0) {
             String key = serializer.readString();
-            Tag value = deserializeTag(id, serializer);
+            Tag<?> value = deserializeTag(id, serializer);
             tags.put(key, value);
         }
         return new TagCompound(tags);

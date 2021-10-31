@@ -7,7 +7,6 @@ import net.ultragrav.serializer.GravSerializer;
 @AllArgsConstructor
 @Getter
 public class TagString extends Tag<String> {
-
     private String data;
 
     @Override

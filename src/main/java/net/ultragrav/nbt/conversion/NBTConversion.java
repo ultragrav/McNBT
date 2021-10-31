@@ -24,7 +24,7 @@ public class NBTConversion {
         String version = cls[3];
         String tagType = cls[4];
 
-        Class<?> baseClass = mcTag.getClass().getSuperclass();
+//        Class<?> baseClass = mcTag.getClass().getSuperclass();
 
         switch (tagType) {
             case "NBTTagByte":
@@ -33,7 +33,7 @@ public class NBTConversion {
                 return (T) new TagByteArray(Util.getFirstField(mcTag, byte[].class));
             case "NBTTagCompound":
                 Map<?, ?> map = Util.getFirstField(mcTag, Map.class);
-                Map<String, Tag> map2 = new HashMap<>();
+                Map<String, Tag<?>> map2 = new HashMap<>();
                 for (Map.Entry<?, ?> ent : map.entrySet()) {
                     map2.put((String) ent.getKey(), wrapTag(ent.getValue()));
                 }
@@ -50,7 +50,7 @@ public class NBTConversion {
                 return (T) new TagIntArray(Util.getFirstField(mcTag, int[].class));
             case "NBTTagList":
                 List<?> list = Util.getFirstField(mcTag, List.class);
-                List<Tag> list2 = new ArrayList<>();
+                List<Tag<?>> list2 = new ArrayList<>();
                 for (Object obj : list) {
                     list2.add(wrapTag(obj));
                 }
@@ -73,23 +73,23 @@ public class NBTConversion {
      * @param tag     Tag
      * @param version Server version in package format, such as {@code v1_12_R1}
      * @param <T>     Unwrapped tag
-     * @return
+     * @return NMS tag
      */
-    public static <T> T unwrapTag(Tag tag, String version) {
+    public static <T> T unwrapTag(Tag<?> tag, String version) {
         try {
             Class<T> clazz = (Class<T>) Class.forName("net.minecraft.server." + version + ".NBT" + tag.getClass().getSimpleName());
             Class<? extends Tag> tagClass = tag.getClass();
             if (tag instanceof TagCompound) {
-                Map<String, Tag> dat = ((TagCompound) tag).getData();
+                Map<String, Tag<?>> dat = ((TagCompound) tag).getData();
                 Map ret = new HashMap();
-                for (Map.Entry<String, Tag> ent : dat.entrySet()) {
+                for (Map.Entry<String, Tag<?>> ent : dat.entrySet()) {
                     ret.put(ent.getKey(), unwrapTag(ent.getValue(), version));
                 }
                 T t = Util.construct(clazz);
                 Util.setFirstField(t, ret);
                 return t;
             } else if (tag instanceof TagList) {
-                List<Tag> list = ((TagList) tag).getData();
+                List<Tag<?>> list = ((TagList) tag).getData();
                 List ret = new ArrayList();
                 byte typeId = 0;
                 for (Tag t : list) {
