@@ -123,7 +123,11 @@ public class NBTConversion {
      */
     public static <T> T unwrapTag(Tag<?> tag, String version) {
         try {
-            Class<T> clazz = (Class<T>) Class.forName("net.minecraft.server." + version + ".NBT" + tag.getClass().getSimpleName());
+            String clazzName = "net.minecraft.server.NBT" + tag.getClass().getSimpleName();
+            if (version != null) {
+                clazzName = "net.minecraft.server." + version + ".NBT" + tag.getClass().getSimpleName();
+            }
+            Class<T> clazz = (Class<T>) Class.forName(clazzName);
             Class<? extends Tag> tagClass = tag.getClass();
             if (tag instanceof TagCompound) {
                 Map<String, Tag<?>> dat = ((TagCompound) tag).getData();
