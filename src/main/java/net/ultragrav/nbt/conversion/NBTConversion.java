@@ -21,50 +21,96 @@ public class NBTConversion {
 
         String clName = mcTag.getClass().getName();
         String[] cls = clName.split("\\.");
-        String version = cls[3];
-        String tagType = cls[4];
+
+        if (cls.length == 4) {
+            // Modern version
+            String tagType = cls[3];
+
+            switch (tagType) {
+                case "NBTTagByte":
+                    return (T) new TagByte(Util.getFirstField(mcTag, byte.class));
+                case "NBTTagByteArray":
+                    return (T) new TagByteArray(Util.getFirstField(mcTag, byte[].class));
+                case "NBTTagCompound":
+                    Map<?, ?> map = Util.getFirstField(mcTag, Map.class);
+                    Map<String, Tag<?>> map2 = new HashMap<>();
+                    for (Map.Entry<?, ?> ent : map.entrySet()) {
+                        map2.put((String) ent.getKey(), wrapTag(ent.getValue()));
+                    }
+                    return (T) new TagCompound(map2);
+                case "NBTTagDouble":
+                    return (T) new TagDouble(Util.getFirstField(mcTag, double.class));
+                case "NBTTagEnd":
+                    return (T) TagEnd.instance;
+                case "NBTTagFloat":
+                    return (T) new TagFloat(Util.getFirstField(mcTag, float.class));
+                case "NBTTagInt":
+                    return (T) new TagInt(Util.getFirstField(mcTag, int.class));
+                case "NBTTagIntArray":
+                    return (T) new TagIntArray(Util.getFirstField(mcTag, int[].class));
+                case "NBTTagList":
+                    List<?> list = Util.getFirstField(mcTag, List.class);
+                    List<Tag<?>> list2 = new ArrayList<>();
+                    for (Object obj : list) {
+                        list2.add(wrapTag(obj));
+                    }
+                    return (T) new TagList(list2);
+                case "NBTTagLong":
+                    return (T) new TagLong(Util.getFirstField(mcTag, long.class));
+                case "NBTTagLongArray":
+                    return (T) new TagLongArray(Util.getFirstField(mcTag, long[].class));
+                case "NBTTagShort":
+                    return (T) new TagShort(Util.getFirstField(mcTag, short.class));
+                case "NBTTagString":
+                    return (T) new TagString(Util.getFirstField(mcTag, String.class));
+            }
+            throw new IllegalArgumentException("Invalid Minecraft NBT Tag: " + tagType);
+        } else {
+            String version = cls[3];
+            String tagType = cls[4];
 
 //        Class<?> baseClass = mcTag.getClass().getSuperclass();
 
-        switch (tagType) {
-            case "NBTTagByte":
-                return (T) new TagByte(Util.getFirstField(mcTag, byte.class));
-            case "NBTTagByteArray":
-                return (T) new TagByteArray(Util.getFirstField(mcTag, byte[].class));
-            case "NBTTagCompound":
-                Map<?, ?> map = Util.getFirstField(mcTag, Map.class);
-                Map<String, Tag<?>> map2 = new HashMap<>();
-                for (Map.Entry<?, ?> ent : map.entrySet()) {
-                    map2.put((String) ent.getKey(), wrapTag(ent.getValue()));
-                }
-                return (T) new TagCompound(map2);
-            case "NBTTagDouble":
-                return (T) new TagDouble(Util.getFirstField(mcTag, double.class));
-            case "NBTTagEnd":
-                return (T) TagEnd.instance;
-            case "NBTTagFloat":
-                return (T) new TagFloat(Util.getFirstField(mcTag, float.class));
-            case "NBTTagInt":
-                return (T) new TagInt(Util.getFirstField(mcTag, int.class));
-            case "NBTTagIntArray":
-                return (T) new TagIntArray(Util.getFirstField(mcTag, int[].class));
-            case "NBTTagList":
-                List<?> list = Util.getFirstField(mcTag, List.class);
-                List<Tag<?>> list2 = new ArrayList<>();
-                for (Object obj : list) {
-                    list2.add(wrapTag(obj));
-                }
-                return (T) new TagList(list2);
-            case "NBTTagLong":
-                return (T) new TagLong(Util.getFirstField(mcTag, long.class));
-            case "NBTTagLongArray":
-                return (T) new TagLongArray(Util.getFirstField(mcTag, long[].class));
-            case "NBTTagShort":
-                return (T) new TagShort(Util.getFirstField(mcTag, short.class));
-            case "NBTTagString":
-                return (T) new TagString(Util.getFirstField(mcTag, String.class));
+            switch (tagType) {
+                case "NBTTagByte":
+                    return (T) new TagByte(Util.getFirstField(mcTag, byte.class));
+                case "NBTTagByteArray":
+                    return (T) new TagByteArray(Util.getFirstField(mcTag, byte[].class));
+                case "NBTTagCompound":
+                    Map<?, ?> map = Util.getFirstField(mcTag, Map.class);
+                    Map<String, Tag<?>> map2 = new HashMap<>();
+                    for (Map.Entry<?, ?> ent : map.entrySet()) {
+                        map2.put((String) ent.getKey(), wrapTag(ent.getValue()));
+                    }
+                    return (T) new TagCompound(map2);
+                case "NBTTagDouble":
+                    return (T) new TagDouble(Util.getFirstField(mcTag, double.class));
+                case "NBTTagEnd":
+                    return (T) TagEnd.instance;
+                case "NBTTagFloat":
+                    return (T) new TagFloat(Util.getFirstField(mcTag, float.class));
+                case "NBTTagInt":
+                    return (T) new TagInt(Util.getFirstField(mcTag, int.class));
+                case "NBTTagIntArray":
+                    return (T) new TagIntArray(Util.getFirstField(mcTag, int[].class));
+                case "NBTTagList":
+                    List<?> list = Util.getFirstField(mcTag, List.class);
+                    List<Tag<?>> list2 = new ArrayList<>();
+                    for (Object obj : list) {
+                        list2.add(wrapTag(obj));
+                    }
+                    return (T) new TagList(list2);
+                case "NBTTagLong":
+                    return (T) new TagLong(Util.getFirstField(mcTag, long.class));
+                case "NBTTagLongArray":
+                    return (T) new TagLongArray(Util.getFirstField(mcTag, long[].class));
+                case "NBTTagShort":
+                    return (T) new TagShort(Util.getFirstField(mcTag, short.class));
+                case "NBTTagString":
+                    return (T) new TagString(Util.getFirstField(mcTag, String.class));
+            }
+            throw new IllegalArgumentException("Invalid Minecraft NBT Tag");
         }
-        throw new IllegalArgumentException("Invalid Minecraft NBT Tag");
     }
 
     /**
